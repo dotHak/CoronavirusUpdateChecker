@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Coronavirus Update</string>
+    <string name="title_global">Global</string>
+    <string name="title_name">Country Name</string>
+    <string name="title_search">Search</string>
+    <string name="title_About">About</string>
+    <string name="title_cases">Cases</string>
+    <string name="title_deaths">Deaths</string>
+    <string name="title_recovered">Recovered</string>
+    <string name="title_critical">Critical</string>
+    <string name="title_active">Active</string>
+    <string name="title_today">Today </string>
+    <string name="label_today">Today: </string>
+    <string name="label_cases">Cases: </string>
+    <string name="label_active">Active: </string>
+    <string name="label_deaths">Deaths: </string>
+    <string name="label_recovered">Recovered: </string>
+    <string name="label_critical">Critical: </string>
+    <string name="title_Ghana">Ghana</string>
+
+
+</resources>

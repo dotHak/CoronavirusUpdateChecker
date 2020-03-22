@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_global">
+
+    <fragment
+        android:id="@+id/navigation_global"
+        android:name="com.hubert.coronavirusUpdate.ui.global.GlobalFragment"
+        android:label="@string/title_global"
+        tools:layout="@layout/fragment_global" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.hubert.coronavirusUpdate.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_about"
+        android:name="com.hubert.coronavirusUpdate.ui.about.AboutFragment"
+        android:label="@string/title_About"
+        tools:layout="@layout/fragment_about" />
+</navigation>
