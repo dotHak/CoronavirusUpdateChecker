@@ -81,9 +81,12 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         int resId;
         Context context = flagView.getContext();
         if(country.getName().equals("USA")){
-            resId = context.getResources().getIdentifier("us_16","drawable",context.getPackageName());
+            resId = context.getResources().getIdentifier("us_16","drawable",
+                    context.getPackageName());
         }else {
-            resId = context.getResources().getIdentifier(countriesCode.get(country.getName())+"_16","drawable",context.getPackageName());
+            resId = context.getResources().getIdentifier(
+                    countriesCode.get(country.getName())+"_16","drawable",
+                    context.getPackageName());
         }
         flagView.setImageResource(resId);
 

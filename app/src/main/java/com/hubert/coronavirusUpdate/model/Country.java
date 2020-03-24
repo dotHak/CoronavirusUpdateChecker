@@ -99,17 +99,11 @@ public class Country {
         this.critical = critical;
     }
 
-    @Override
-    public String toString() {
-        return "Country{" +
-                "name='" + name + '\'' +
-                ", cases=" + cases +
-                ", todayCases=" + todayCases +
-                ", deaths=" + deaths +
-                ", todayDeaths=" + todayDeaths +
-                ", recovered=" + recovered +
-                ", active=" + active +
-                ", critical=" + critical +
-                '}';
+    public CountryInfo getCountryInfo() {
+        return countryInfo;
+    }
+
+    public void setCountryInfo(CountryInfo countryInfo) {
+        this.countryInfo = countryInfo;
     }
 }

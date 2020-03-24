@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,6 @@ import com.hubert.coronavirusUpdate.model.Country;
 import com.hubert.coronavirusUpdate.model.SearchAdapter;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GlobalFragment extends Fragment{
@@ -33,7 +33,6 @@ public class GlobalFragment extends Fragment{
     private String currentDeaths;
     private String currentRecovered;
     private SharedPreferences sharedPreferences;
-    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,10 +56,7 @@ public class GlobalFragment extends Fragment{
         setDeaths(deathsView);
         setRecovered(recoveredView);
         setCountryData(root);
-        List<String> items = new ArrayList<>();
-        items.add("Ghana");
-        items.add("Niger");
-        items.add("China");
+
         ArrayAdapter adapter = new ArrayAdapter(requireContext(), R.layout.list_item, countries);
         textInputLayout.setAdapter(adapter);
         textInputLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,6 +143,10 @@ public class GlobalFragment extends Fragment{
             }
         });
 
+    }
+
+    public void showError(String text, Context context){
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
 }

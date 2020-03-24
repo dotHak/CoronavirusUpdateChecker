@@ -1,7 +1,13 @@
 package com.hubert.coronavirusUpdate.ui.global;
 
+import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.widget.Toast;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.hubert.coronavirusUpdate.api.ApiClient;
 import com.hubert.coronavirusUpdate.api.ApiService;
@@ -17,25 +23,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class GlobalViewModel extends ViewModel {
+public class GlobalViewModel extends AndroidViewModel {
 
     private MutableLiveData<String> cases;
     private MutableLiveData<String> deaths;
     private MutableLiveData<String> recovered;
     private static List<String> countryNames;
     private MutableLiveData<Country> currentCountry;
-    static boolean totalError;
+    private Context context;
 
 
 
-    public GlobalViewModel() {
+    public GlobalViewModel(Application application) {
+        super(application);
         countryNames = new ArrayList<>();
         setCountryNames();
+        context = application.getApplicationContext();
         cases = new MutableLiveData<>();
         deaths = new MutableLiveData<>();
         recovered = new MutableLiveData<>();
         currentCountry = new MutableLiveData<>();
-        totalError = false;
         setData();
 
     }
@@ -55,7 +62,7 @@ public class GlobalViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<Total> call, Throwable t) {
-                totalError = true;
+                showError();
             }
         });
 
@@ -76,7 +83,7 @@ public class GlobalViewModel extends ViewModel {
 
                 @Override
                 public void onFailure(Call<List<Country>> call, Throwable t) {
-
+                    showError();
                 }
             });
         }
@@ -98,9 +105,27 @@ public class GlobalViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<Country> call, Throwable t) {
-
+                showError();
             }
         });
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 
     public List<String> getCountryNames() {
@@ -120,4 +145,13 @@ public class GlobalViewModel extends ViewModel {
         return recovered;
     }
 
+    private void showError(){
+        if (haveNetworkConnection()) {
+            Toast.makeText(context, "Oops an error occurred!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Please check your internet connectivity!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 }

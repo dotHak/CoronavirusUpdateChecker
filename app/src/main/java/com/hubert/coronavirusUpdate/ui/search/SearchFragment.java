@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -32,7 +33,6 @@ public class SearchFragment extends Fragment {
         searchView = view.findViewById(R.id.searchView);
         adapter = new SearchAdapter(getActivity(), countryList);
 
-
         if(countryList != null){
             listView = view.findViewById(R.id.searchList);
             listView.setAdapter(adapter);
@@ -49,6 +49,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -68,6 +69,9 @@ public class SearchFragment extends Fragment {
     }
 
 
+    public void showError(String text){
+        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    }
 
 
 }
