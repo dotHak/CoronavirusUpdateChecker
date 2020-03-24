@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,10 @@ import com.hubert.coronavirusUpdate.R;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class SearchAdapter extends BaseAdapter implements Filterable {
 
@@ -24,6 +28,7 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
     private List<Country> originalCountries;
     private List<Country> countries;
     private ListFilter listFilter;
+    public static Map<String, String> countriesCode = new HashMap<>();
 
     public SearchAdapter(@NonNull Context context, List<Country> objects) {
         this.context = context;
@@ -50,8 +55,9 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Country country = (Country) getItem(position);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.search_list_item, parent, false);
+        processCountryCode();
 
         TextView cases = convertView.findViewById(R.id.country_search_cases);
         TextView active = convertView.findViewById(R.id.country_search_active);
@@ -61,6 +67,7 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         TextView todayDeaths = convertView.findViewById(R.id.country_search_today_deaths);
         TextView recovered = convertView.findViewById(R.id.country_search_recovered);
         TextView critical = convertView.findViewById(R.id.country_search_critical);
+        ImageView flagView = convertView.findViewById(R.id.flagView);
 
         name.setText(country.getName());
         cases.setText(NumberFormat.getInstance().format(country.getCases()));
@@ -70,6 +77,15 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         todayDeaths.setText(NumberFormat.getInstance().format(country.getTodayDeaths()));
         recovered.setText(NumberFormat.getInstance().format(country.getRecovered()));
         critical.setText(NumberFormat.getInstance().format(country.getCritical()));
+
+        int resId;
+        Context context = flagView.getContext();
+        if(country.getName().equals("USA")){
+            resId = context.getResources().getIdentifier("us_16","drawable",context.getPackageName());
+        }else {
+            resId = context.getResources().getIdentifier(countriesCode.get(country.getName())+"_16","drawable",context.getPackageName());
+        }
+        flagView.setImageResource(resId);
 
         return convertView;
     }
@@ -81,6 +97,16 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
             listFilter = new ListFilter();
         }
         return listFilter;
+    }
+
+    public static void processCountryCode(){
+        if(countriesCode.isEmpty()) {
+            for (String iso : Locale.getISOCountries()) {
+                Locale l = new Locale("", iso);
+                countriesCode.put(l.getDisplayCountry(), iso.toLowerCase());
+            }
+        }
+
     }
 
     private class ListFilter extends Filter{

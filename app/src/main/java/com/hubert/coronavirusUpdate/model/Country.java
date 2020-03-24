@@ -28,19 +28,12 @@ public class Country {
     @SerializedName("critical")
     private int critical;
 
+    @SerializedName("countryInfo")
+    private CountryInfo countryInfo;
+
     public Country() {
     }
 
-    public Country(String name, int cases, int todayCases, int deaths, int todayDeaths, int recovered, int active, int critical) {
-        this.name = name;
-        this.cases = cases;
-        this.todayCases = todayCases;
-        this.deaths = deaths;
-        this.todayDeaths = todayDeaths;
-        this.recovered = recovered;
-        this.active = active;
-        this.critical = critical;
-    }
 
     public String getName() {
         return name;

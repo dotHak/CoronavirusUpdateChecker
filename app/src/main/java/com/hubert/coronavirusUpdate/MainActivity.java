@@ -1,5 +1,6 @@
 package com.hubert.coronavirusUpdate;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        if(!sharedPreferences.contains("country")){
+            sharedPreferences.edit().putString("country", "Ghana").apply();
+        }
     }
 
 }
