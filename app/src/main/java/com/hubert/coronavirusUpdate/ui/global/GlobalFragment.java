@@ -76,6 +76,7 @@ public class GlobalFragment extends Fragment{
             public void onChanged(@Nullable String s) {
                 if(!s.equals(currentCases)){
                     textView.setText(s);
+                    textView.setVisibility(View.VISIBLE);
                     currentCases = s;
                 }
             }
@@ -88,6 +89,7 @@ public class GlobalFragment extends Fragment{
             public void onChanged(@Nullable String s) {
                 if(!s.equals(currentDeaths)){
                     textView.setText(s);
+                    textView.setVisibility(View.VISIBLE);
                     currentDeaths = s;
                 }
             }
@@ -100,6 +102,7 @@ public class GlobalFragment extends Fragment{
             public void onChanged(@Nullable String s) {
                 if(!s.equals(currentRecovered)){
                     textView.setText(s);
+                    textView.setVisibility(View.VISIBLE);
                     currentRecovered = s;
                 }
             }
@@ -123,13 +126,22 @@ public class GlobalFragment extends Fragment{
             @Override
             public void onChanged(Country country) {
                 name.setText(country.getName());
+                name.setVisibility(View.VISIBLE);
                 cases.setText(NumberFormat.getInstance().format(country.getCases()));
+                cases.setVisibility(View.VISIBLE);
                 todayCases.setText(NumberFormat.getInstance().format(country.getTodayCases()));
+                todayCases.setVisibility(View.VISIBLE);
                 active.setText(NumberFormat.getInstance().format(country.getActive()));
+                active.setVisibility(View.VISIBLE);
+                todayCases.setVisibility(View.VISIBLE);
                 deaths.setText(NumberFormat.getInstance().format(country.getDeaths()));
+                deaths.setVisibility(View.VISIBLE);
                 todayDeaths.setText(NumberFormat.getInstance().format(country.getTodayDeaths()));
+                todayDeaths.setVisibility(View.VISIBLE);
                 recovered.setText(NumberFormat.getInstance().format(country.getRecovered()));
+                recovered.setVisibility(View.VISIBLE);
                 critical.setText(NumberFormat.getInstance().format(country.getCritical()));
+                critical.setVisibility(View.VISIBLE);
 
                 int resId;
                 Context context = flagView.getContext();
