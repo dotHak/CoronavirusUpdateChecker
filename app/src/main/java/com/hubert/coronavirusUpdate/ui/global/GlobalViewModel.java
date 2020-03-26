@@ -17,7 +17,13 @@ import com.hubert.coronavirusUpdate.model.Total;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +37,8 @@ public class GlobalViewModel extends AndroidViewModel {
     private static List<String> countryNames;
     private MutableLiveData<Country> currentCountry;
     private Context context;
+    private Total oldTotal;
+    private Country oldCountry;
 
 
 
@@ -43,28 +51,45 @@ public class GlobalViewModel extends AndroidViewModel {
         deaths = new MutableLiveData<>();
         recovered = new MutableLiveData<>();
         currentCountry = new MutableLiveData<>();
-        setData();
 
+        setData();
     }
 
-    public void setData(){
+    private void setData(){
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Observable<Total> countryObservable = apiService.getAllTotal();
+        countryObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .repeatWhen(completed -> completed.delay(1, TimeUnit.MINUTES))
+                .subscribe(new Observer<Total>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
 
-        Call<Total> totalCall = apiService.getAllTotal();
-        totalCall.enqueue(new Callback<Total>() {
-            @Override
-            public void onResponse(Call<Total> call, Response<Total> response) {
-                Total total = response.body();
-                cases.setValue(NumberFormat.getInstance().format(total.getCases()));
-                deaths.setValue(NumberFormat.getInstance().format(total.getDeaths()));
-                recovered.setValue(NumberFormat.getInstance().format(total.getRecovered()));
-            }
+                    @Override
+                    public void onNext(Total total) {
+                        if(!total.equals(oldTotal)){
+                            oldTotal = total;
+                        }
+                        cases.setValue(NumberFormat.getInstance().format(oldTotal.getCases()));
+                        deaths.setValue(NumberFormat.getInstance().format(oldTotal.getDeaths()));
+                        recovered.setValue(NumberFormat.getInstance().format(oldTotal.getRecovered()));
+                    }
 
-            @Override
-            public void onFailure(Call<Total> call, Throwable t) {
-                showError();
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        showError();
+                        if(!(oldTotal == null)){
+                            cases.setValue(NumberFormat.getInstance().format(oldTotal.getCases()));
+                            deaths.setValue(NumberFormat.getInstance().format(oldTotal.getDeaths()));
+                            recovered.setValue(NumberFormat.getInstance().format(oldTotal.getRecovered()));
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
 
 
     }
@@ -96,18 +121,39 @@ public class GlobalViewModel extends AndroidViewModel {
 
     public void setCurrentCountry(String country){
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<Country> countryCall = apiService.getCountry(country);
-        countryCall.enqueue(new Callback<Country>() {
-            @Override
-            public void onResponse(Call<Country> call, Response<Country> response) {
-                currentCountry.setValue(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<Country> call, Throwable t) {
-                showError();
-            }
-        });
+        Observable<Country> countryObservable = apiService.getCountry(country);
+        countryObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .repeatWhen(completed -> completed.delay(1, TimeUnit.MINUTES))
+                .subscribe(new Observer<Country>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Country country) {
+                        if(!country.equals(oldCountry)){
+                            oldCountry = country;
+                        }
+                        currentCountry.setValue(oldCountry);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showError();
+                        if(!(oldCountry==null)){
+                            currentCountry.setValue(oldCountry);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     private boolean haveNetworkConnection() {
@@ -154,4 +200,5 @@ public class GlobalViewModel extends AndroidViewModel {
                     Toast.LENGTH_SHORT).show();
         }
     }
+
 }

@@ -131,14 +131,14 @@ public class GlobalFragment extends Fragment{
                 recovered.setText(NumberFormat.getInstance().format(country.getRecovered()));
                 critical.setText(NumberFormat.getInstance().format(country.getCritical()));
 
-                int resId;
+                SearchAdapter.processCountryCode();
                 Context context = flagView.getContext();
-                if(country.getName().equals("USA")){
-                    resId = context.getResources().getIdentifier("us_16","drawable",context.getPackageName());
-                }else {
-                    SearchAdapter.processCountryCode();
-                    resId = context.getResources().getIdentifier(SearchAdapter.countriesCode.get(country.getName())+"_16","drawable",context.getPackageName());
-                }
+                int resId = !(SearchAdapter.countriesCode.get(country.getName()) == null)?
+                        context.getResources().getIdentifier(
+                                SearchAdapter.countriesCode.get(country.getName())+"_16","drawable",
+                                context.getPackageName()): context.getResources().getIdentifier("unknown",
+                        "drawable", context.getPackageName());
+
                 flagView.setImageResource(resId);
             }
         });

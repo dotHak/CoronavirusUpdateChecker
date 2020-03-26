@@ -28,9 +28,6 @@ public class Country {
     @SerializedName("critical")
     private int critical;
 
-    @SerializedName("countryInfo")
-    private CountryInfo countryInfo;
-
     public Country() {
     }
 
@@ -99,11 +96,18 @@ public class Country {
         this.critical = critical;
     }
 
-    public CountryInfo getCountryInfo() {
-        return countryInfo;
-    }
-
-    public void setCountryInfo(CountryInfo countryInfo) {
-        this.countryInfo = countryInfo;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return cases == country.cases &&
+                todayCases == country.todayCases &&
+                deaths == country.deaths &&
+                todayDeaths == country.todayDeaths &&
+                recovered == country.recovered &&
+                active == country.active &&
+                critical == country.critical &&
+                name.equals(country.name);
     }
 }

@@ -78,16 +78,14 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         recovered.setText(NumberFormat.getInstance().format(country.getRecovered()));
         critical.setText(NumberFormat.getInstance().format(country.getCritical()));
 
-        int resId;
         Context context = flagView.getContext();
-        if(country.getName().equals("USA")){
-            resId = context.getResources().getIdentifier("us_16","drawable",
-                    context.getPackageName());
-        }else {
-            resId = context.getResources().getIdentifier(
-                    countriesCode.get(country.getName())+"_16","drawable",
-                    context.getPackageName());
-        }
+
+        int resId = !(countriesCode.get(country.getName()) == null)?
+                context.getResources().getIdentifier(
+                countriesCode.get(country.getName())+"_16","drawable",
+                context.getPackageName()): context.getResources().getIdentifier("unknown",
+                "drawable", context.getPackageName());
+
         flagView.setImageResource(resId);
 
         return convertView;
@@ -106,10 +104,28 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         if(countriesCode.isEmpty()) {
             for (String iso : Locale.getISOCountries()) {
                 Locale l = new Locale("", iso);
-                countriesCode.put(l.getDisplayCountry(), iso.toLowerCase());
+                countriesCode.put(getAbbreviatedName(l.getDisplayCountry()), iso.toLowerCase());
             }
         }
 
+    }
+
+    private static String getAbbreviatedName(String name){
+        switch (name){
+            case "United States":
+                name = "USA";
+                break;
+            case "South Korea":
+                name = "S. Korea";
+                break;
+            case "United Kingdom":
+                name = "UK";
+                break;
+            default:
+                break;
+        }
+
+        return name;
     }
 
     private class ListFilter extends Filter{

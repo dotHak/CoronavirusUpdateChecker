@@ -55,4 +55,13 @@ public class Total {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Total total = (Total) o;
+        return cases == total.cases &&
+                deaths == total.deaths &&
+                recovered == total.recovered;
+    }
 }
