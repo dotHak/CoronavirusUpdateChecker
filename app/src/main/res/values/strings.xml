@@ -18,7 +18,7 @@
     <string name="label_critical">Critical: </string>
     <string name="label_input_prompt">Enter your Country</string>
     <string name="title_Ghana">Ghana</string>
-    <string name="preference_file_key">country</string>
+    <string name="preference_file_key">COVIDUpdate</string>
     <string name="label_text_input">Enter your country</string>
 
 

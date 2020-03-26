@@ -1,6 +1,5 @@
 package com.hubert.coronavirusUpdate;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +12,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
+    public static final String globalCases = "globalCases";
+    public static final String globalDeaths = "globalDeaths";
+    public static final String globalRecovered = "globalRecovered";
+    public static final String currentCountryName = "currentCountryName";
+    public static final String newCurrentCountryName = "newCurrentCountryName";
+    public static final String currentCountryCases = "currentCountryCases";
+    public static final String currentCountryTodayCases = "currentCountryTodayCases";
+    public static final String currentCountryDeaths = "currentCountryDeaths";
+    public static final String currentCountryTodayDeaths = "currentCountryTodayDeaths";
+    public static final String currentCountryRecovered = "currentCountryRecovered";
+    public static final String currentCountryActive = "currentCountryActive";
+    public static final String currentCountryCritical = "currentCountryCritical";
+    public static final String allCountryNames = "allCountryNames";
+    public static final String currentListNeedUpdate = "currentListNeedUpdate";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +40,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        if(!sharedPreferences.contains("country")){
-            sharedPreferences.edit().putString("country", "Ghana").apply();
-        }
     }
 
 }

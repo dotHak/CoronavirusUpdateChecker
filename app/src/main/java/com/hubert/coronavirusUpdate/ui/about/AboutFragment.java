@@ -23,6 +23,7 @@ public class AboutFragment extends Fragment {
         aboutViewModel = new ViewModelProvider(this).get(AboutViewModel.class);
         View root = inflater.inflate(R.layout.fragment_about, container, false);
         final TextView textView = root.findViewById(R.id.text_about);
+        setRetainInstance(true);
         aboutViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

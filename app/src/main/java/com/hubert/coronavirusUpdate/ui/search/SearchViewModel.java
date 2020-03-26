@@ -2,6 +2,7 @@ package com.hubert.coronavirusUpdate.ui.search;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
@@ -9,15 +10,24 @@ import android.widget.Toast;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.hubert.coronavirusUpdate.MainActivity;
+import com.hubert.coronavirusUpdate.R;
 import com.hubert.coronavirusUpdate.api.ApiClient;
 import com.hubert.coronavirusUpdate.api.ApiService;
 import com.hubert.coronavirusUpdate.model.Country;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SearchViewModel extends AndroidViewModel {
 
@@ -31,25 +41,58 @@ public class SearchViewModel extends AndroidViewModel {
         setData();
     }
 
-    public MutableLiveData<List<Country>> getCountryList() {
-        setData();
+    MutableLiveData<List<Country>> getCountryList() {
         return countryList;
     }
 
-    public void setData() {
+    private void setData() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<List<Country>> countryCall = apiService.getAllCountries();
-        countryCall.enqueue(new Callback<List<Country>>() {
-            @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
-                countryList.setValue(response.body());
-            }
+        Observable<List<Country>> listObservable = apiService.getAllCountriesObservable();
+        listObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .repeatWhen(completed -> completed.delay(4, TimeUnit.MINUTES))
+                .subscribe(new Observer<List<Country>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
-                showError();
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(List<Country> cList) {
+                        if(!(cList == null)){
+                            countryList.setValue(cList);
+                            updateCountryNames(cList);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void updateCountryNames(List<Country> countryList){
+       SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), MODE_PRIVATE);
+       Set<String> countryNames = sharedPreferences.getStringSet(
+               MainActivity.allCountryNames, new HashSet<>());
+       if(countryList != null){
+           if(countryList.size() != countryList.size()){
+               Set<String> names = new HashSet<>();
+               for(Country country: countryList){
+                   names.add(country.getName());
+               }
+               sharedPreferences.edit()
+                       .putStringSet(MainActivity.allCountryNames, names).apply();
+           }
+       }
+
     }
 
     private boolean haveNetworkConnection() {

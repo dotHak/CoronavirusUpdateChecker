@@ -18,7 +18,13 @@ public interface ApiService {
     @GET("countries/{countryName}")
     Observable<Country> getCountry(@Path("countryName") String countryName);
 
+    @GET("countries/{countryName}")
+    Call<Country> getCountrySingleCall(@Path("countryName") String countryName);
+
     @GET("countries")
     Call<List<Country>> getAllCountries();
+
+    @GET("countries")
+    Observable<List<Country>> getAllCountriesObservable();
 
 }

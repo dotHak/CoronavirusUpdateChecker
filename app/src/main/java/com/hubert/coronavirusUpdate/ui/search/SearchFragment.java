@@ -20,33 +20,22 @@ import com.hubert.coronavirusUpdate.model.SearchAdapter;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
-    private SearchView searchView;
     private ListView listView;
     private SearchAdapter adapter;
-    private SearchViewModel searchViewModel;
-    private List<Country> countryList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
-        searchView = view.findViewById(R.id.searchView);
-        adapter = new SearchAdapter(getActivity(), countryList);
-
-        if(countryList != null){
-            listView = view.findViewById(R.id.searchList);
-            listView.setAdapter(adapter);
-        }
+        SearchView searchView = view.findViewById(R.id.searchView);
+        setRetainInstance(true);
 
         searchViewModel.getCountryList().observe(getViewLifecycleOwner(), new Observer<List<Country>>() {
             @Override
             public void onChanged(List<Country> countries) {
-                if(!countries.equals(countryList)){
-                    adapter = new SearchAdapter(getActivity(), countries);
-                    listView = view.findViewById(R.id.searchList);
-                    listView.setAdapter(adapter);
-                    countryList = countries;
-                }
+                adapter = new SearchAdapter(getActivity(), countries);
+                listView = view.findViewById(R.id.searchList);
+                listView.setAdapter(adapter);
             }
         });
 
