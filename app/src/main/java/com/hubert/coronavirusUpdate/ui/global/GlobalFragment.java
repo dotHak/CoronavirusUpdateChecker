@@ -73,11 +73,7 @@ public class GlobalFragment extends Fragment{
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
-                if(!s.equals(currentCases)){
-                    textView.setText(s);
-                    textView.setVisibility(View.VISIBLE);
-                    currentCases = s;
-                }
+                textView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -87,11 +83,7 @@ public class GlobalFragment extends Fragment{
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
-                if(!s.equals(currentDeaths)){
-                    textView.setText(s);
-                    textView.setVisibility(View.VISIBLE);
-                    currentDeaths = s;
-                }
+                textView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -101,11 +93,7 @@ public class GlobalFragment extends Fragment{
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
-                if(!s.equals(currentRecovered)){
-                    textView.setText(s);
                     textView.setVisibility(View.VISIBLE);
-                    currentRecovered = s;
-                }
             }
         });
     }

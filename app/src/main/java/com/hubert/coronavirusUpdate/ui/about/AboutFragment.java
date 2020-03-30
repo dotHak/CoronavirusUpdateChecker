@@ -24,7 +24,6 @@ public class AboutFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_about, container, false);
         final TextView textView = root.findViewById(R.id.text_about);
         setRetainInstance(true);
-        aboutViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
         final TextView moreData = root.findViewById(R.id.aboutVirus);
         final TextView hSpread = root.findViewById(R.id.spreadWays);
         final TextView mSpread = root.findViewById(R.id.howSpread);

@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 public class AboutViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText,mText1,mText2,mText3,mText4,mText5,mText6,mText7,mText8,mText9;
+    private MutableLiveData<String> mText,mText1,mText2,mText3,
+            mText4,mText5,mText6,mText7,mText8,mText9;
     private static final String ABOUTVirus = "What are Coronavirus";
     private static final String dataOnVirus = "Coronavirus are a large grorup of viruses" +
             " that are common among animals. According to the US Centers for Disease Control" +
@@ -28,11 +29,12 @@ public class AboutViewModel extends ViewModel {
             "\n- If you sick, stay home and avoid crowds and contact with others. ";
 
     private static final String hTreatment = "Treatment";
-    private static final String mTreatment = "No specific treatment has come up yet. " +
-            "\nPain and fever medications are prescribed to relieve symptoms. " +
-            "\nDrink a lot of fluids, specifically water " +
-            "\nGet plenty of rest " +
-            "\nIf symptoms feels worse, see a doctor. ";
+    private static final String mTreatment ="- No specific treatment has come up yet. " +
+            "\n- Self quarantine and call or visit the COVID-19 center immediately" +
+            "\n- Pain and fever medications are prescribed to relieve symptoms. " +
+            "\n- Drink a lot of fluids, specifically water " +
+            "\n- Get plenty of rest " +
+            "\n- If symptoms feels worse, see a doctor. ";
 
 
 
