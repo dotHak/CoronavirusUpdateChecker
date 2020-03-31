@@ -28,13 +28,13 @@ public class AboutViewModel extends ViewModel {
             "\n- Frequency use hand Sanitizers after touching objects or surfaces " +
             "\n- If you sick, stay home and avoid crowds and contact with others. ";
 
-    private static final String hTreatment = "Treatment";
-    private static final String mTreatment ="- No specific treatment has come up yet. " +
-            "\n- Self quarantine and call or visit the COVID-19 center immediately" +
-            "\n- Pain and fever medications are prescribed to relieve symptoms. " +
-            "\n- Drink a lot of fluids, specifically water " +
-            "\n- Get plenty of rest " +
-            "\n- If symptoms feels worse, see a doctor. ";
+//    private static final String hTreatment = "Treatment";
+//    private static final String mTreatment ="- No specific treatment has come up yet. " +
+//            "\n- Self quarantine and call or visit the COVID-19 center immediately" +
+//            "\n- Pain and fever medications are prescribed to relieve symptoms. " +
+//            "\n- Drink a lot of fluids, specifically water " +
+//            "\n- Get plenty of rest " +
+//            "\n- If symptoms feels worse, see a doctor. ";
 
 
 
@@ -58,8 +58,8 @@ public class AboutViewModel extends ViewModel {
         mText5.setValue(mSigns);
         mText6.setValue(hPrevent);
         mText7.setValue(mPrevent);
-        mText8.setValue(hTreatment);
-        mText9.setValue(mTreatment);
+//        mText8.setValue(hTreatment);
+//        mText9.setValue(mTreatment);
     }
 
     public LiveData<String> getTextAbout() {
@@ -86,12 +86,12 @@ public class AboutViewModel extends ViewModel {
     public LiveData<String> getMPrevent() {
         return mText7;
     }
-    public LiveData<String> getHTreatment() {
-        return mText8;
-    }
-    public LiveData<String> getMTreatment() {
-        return mText9;
-    }
+//    public LiveData<String> getHTreatment() {
+//        return mText8;
+//    }
+//    public LiveData<String> getMTreatment() {
+//        return mText9;
+//    }
 
 
 
