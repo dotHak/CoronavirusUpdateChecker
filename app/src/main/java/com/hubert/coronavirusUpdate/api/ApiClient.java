@@ -5,7 +5,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://corona.lmao.ninja/";
+    private static final String BASE_URL = "https://disease.sh/v3/covid-19/";
     private static Retrofit retrofit;
     public static Retrofit getClient(){
         if(retrofit == null){
