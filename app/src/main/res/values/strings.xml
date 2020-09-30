@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COVID Update</string>
+    <string name="app_name">COVID Hunt</string>
     <string name="title_global">Global</string>
     <string name="title_name">Country Name</string>
     <string name="title_search">Search</string>

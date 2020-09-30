@@ -31,8 +31,8 @@ public class AboutFragment extends Fragment {
         final TextView hSigns = root.findViewById(R.id.hSigns);
         final TextView hPrevent = root.findViewById(R.id.hPrevent);
         final TextView mPrevent = root.findViewById(R.id.mPrevent);
-        final TextView mTreatment = root.findViewById(R.id.mTreatment);
-        final TextView hTreatment = root.findViewById(R.id.hTreatment);
+//        final TextView mTreatment = root.findViewById(R.id.mTreatment);
+//        final TextView hTreatment = root.findViewById(R.id.hTreatment);
 
         aboutViewModel.getTextAbout().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -90,19 +90,19 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        aboutViewModel.getMTreatment().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                mTreatment.setText(s);
-            }
-        });
-
-        aboutViewModel.getHTreatment().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                hTreatment.setText(s);
-            }
-        });
+//        aboutViewModel.getMTreatment().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//                mTreatment.setText(s);
+//            }
+//        });
+//
+//        aboutViewModel.getHTreatment().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//                hTreatment.setText(s);
+//            }
+//        });
 
         return root;
     }
